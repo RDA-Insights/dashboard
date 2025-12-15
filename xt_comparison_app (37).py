@@ -1281,8 +1281,8 @@ def build_player_pizza(
             "carry_threat_per_90", "dribbles_per_90",
             "successful_attacking_actions_per_90",
             "pass_completion_final_third",
-            "passing_threat_per_90", "keyPasses_per_90",
-            "xA_per_90", "assists_per_90",
+            "passing_threat_per_90", "passing_yards_per_90", "keyPasses_per_90",
+            "assists_per_90",
             "threat_value_per_90",
         ]
     else:
@@ -1401,10 +1401,9 @@ def build_player_pizza(
             "Progressive \nCarries", "Carrying Yards", "Carrying Threat",
             "Dribbles", "Successful \nAttacking Actions",
             "Final 3rd \nPass Completion \n%",
-            "Passing Threat", "Shot Assists", "xA", "Assists",
+            "Passing Threat", "Passing Yards", "Shot Assists", "Assists",
             "Player Impact",
         ]
-
 
     # Must match metric count
     if len(params) != len(values):
