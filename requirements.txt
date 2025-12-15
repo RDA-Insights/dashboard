@@ -1,0 +1,15 @@
+streamlit
+pandas
+numpy
+requests
+matplotlib
+mplsoccer
+pyarrow
+openpyxl
+Pillow
+urllib3
+fonttools
+scipy
+plotly
+scikit-learn
+

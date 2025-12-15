@@ -1,0 +1,4 @@
+WSL1_2526.parquet
+WSL2_2526.parquet
+WSL2_2526_playerstats_by_position_group.xlsx
+WSL1_2526_playerstats_by_position_group.xlsx
