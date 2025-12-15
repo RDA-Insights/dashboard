@@ -1251,7 +1251,7 @@ def build_player_pizza(
 
     elif position in ['LB', 'LWB', 'RB', 'RWB']:
         cols = [
-            "keyPasses_per_90", "assists_per_90", "shots_per_90"
+            "keyPasses_per_90", "assists_per_90", "shots_per_90",
             "goals_per_90", "successful_attacking_actions_per_90",
             "pass_completion", "pass_completion_final_third", "%_passes_are_progressive",
             "prog_carries_per_90",
