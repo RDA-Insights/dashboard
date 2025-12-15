@@ -30,8 +30,8 @@ REPO_NAME = "dashboard"
 BRANCH = "main"
 DATA_DIR = ""  # e.g. "data" if your files are in /data
 
-PitchColor = "#f5f6fc"
-BackgroundColor = "#381d54"
+PitchColor = "#B3B3B3"
+BackgroundColor = "#A7192B"
 PitchLineColor = "Black"
 TextColor = "White"
     # -----------------------------------------------------------------
