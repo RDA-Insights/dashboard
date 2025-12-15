@@ -25,7 +25,7 @@ st.set_page_config(page_title="WT Analysis - Player Data Dashboard", layout="wid
 # -----------------------------------------------------------------------------
 # REPO CONFIG – tweak these if layout changes
 # -----------------------------------------------------------------------------
-REPO_OWNER = "WTAnalysis"
+REPO_OWNER = "RDA-Insights"
 REPO_NAME = "dashboard"
 BRANCH = "main"
 DATA_DIR = ""  # e.g. "data" if your files are in /data
