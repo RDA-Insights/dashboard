@@ -51,26 +51,8 @@ SEASON_MAP = {
 
 # Competition → league prefix
 COMP_MAP = {
-    "Premier League": "ENG1",
-    "La Liga":        "SPA1",
-    "Bundesliga":     "GER1",
-    "Ligue 1":        "FRA1",
-    "Serie A":        "ITA1",
-    "League of Ireland":    "IRE1",
-    "Scottish Premiership": "SCO1",
-    "Allsvenskan":    "SWE1",
-    "Austrian Bundesliga":    "AUT1",
-    "Pro League":    "BEL1",
-    "Superligaen":    "DEN1",
-    "Liga Portugal":    "POR1",
-    "Brasilerao":    "BRA1",
-    "Championship":    "ENG2",
-    "League One":    "ENG3",
-    "League Two":    "ENG4",
-    "Superleague":   "GRE1",
-    "MLS":            "USA1",
-    "J-League":        "JAP1",
-    "Eredivisie":        "NED1",
+    "WSL1": "WSL1",
+    "WSL2":        "WSL2",
 }
 @st.cache_resource
 def load_team_badge(teamcode: str):
@@ -164,7 +146,6 @@ SCATTER_METRIC_MAP = {
     "prog_passes_per_90": "Progressive Passes per 90",
     "keyPasses_per_90": "Shot Assists per 90",
     "assists_per_90": "Assists per 90",
-    "xA_per_90": "xA per 90",
     "switches_per_90": "Switches per 90",
     "passing_yards_per_90": "Passing Yards per 90",
     "passing_threat_per_90": "Passing Threat per 90",
@@ -204,8 +185,6 @@ SCATTER_METRIC_MAP = {
     "total_threat_prevented_per_90": "Threat Prevented per 90",
     "shots_per_90": "Shots per 90",
     "shots_on_target_per_90": "Shots on Target per 90",
-    "xG_per_90": "xG per 90",
-    "xGOT_per_90": "xGOT per 90",
     "goals_per_90": "Goals per 90",
     "threat_value_per_90": "Player Impact per 90",
     "attacking_actions_per_90": "Attacking Actions per 90",
@@ -224,9 +203,7 @@ SCATTER_METRIC_MAP = {
     "dribble_win_rate": "Dribble Success %",
     "shot_accuracy": "Shot Accuracy %",
     "shot_conversion": "Shot Conversion %",
-    "shot_quality": "Shot Quality %",
     "box_touches_per_shot": "Touches in Box per Shot",
-    "xG_per_shot": "xG Per Shot",
 }
 
 # ---------------------------------------------------------
@@ -240,7 +217,6 @@ SIMILARITY_METRICS = [
     "prog_passes_per_90",
     "keyPasses_per_90",
     "assists_per_90",
-    "xA_per_90",
     "switches_per_90",
     "passing_yards_per_90",
     "passing_threat_per_90",
@@ -284,8 +260,6 @@ SIMILARITY_METRICS = [
     "total_threat_prevented_per_90",
     "shots_per_90",
     "shots_on_target_per_90",
-    "xG_per_90",
-    "xGOT_per_90",
     "goals_per_90",
     "threat_value_per_90",
     "attacking_actions_per_90",
@@ -302,9 +276,7 @@ SIMILARITY_METRICS = [
     "dribble_win_rate",
     "shot_accuracy",
     "shot_conversion",
-    "shot_quality",
     "box_touches_per_shot",
-    "xG_per_shot",
 ]
 
 def resolve_metric(display_label: str) -> str:
@@ -999,26 +971,8 @@ def list_parquet_files():
     files = load_index_list()
     return sorted([f for f in files if f.endswith(".parquet")])
 COMPARISON_MAP = {
-    "Premier League": "ENG1_2526",
-    "La Liga":        "SPA1_2526",
-    "Bundesliga":     "GER1_2526",
-    "Ligue 1":        "FRA1_2526",
-    "Serie A":        "ITA1_2526",
-    "League of Ireland": "IRE1_2025",
-    "Scottish Premiership": "SCO1_2526",
-    "Allsvenskan": "SWE1_2025",
-    "Austrian Bundesliga": "AUT1_2526",
-    "Pro League": "BEL1_2526",
-    "Superligaen": "DEN1_2526",
-    "Liga Portugal": "POR1_2526",
-    "Brasilerao": "BRA1_2025",
-    "Championship": "ENG2_2526",
-    "League One": "ENG3_2526",
-    "League Two": "ENG4_2526",
-    "Superleague": "GRE1_2526",
-    "MLS": "USA1_2025",
-    "J-League": "JAP1_2025",
-    "Eredvisie": "NED1_2526",
+    "WSL1": "WSL1_2526",
+    "WSL2":        "WSL2_2526",
 }
 
 @st.cache_data
@@ -2118,9 +2072,7 @@ def main():
         .groupby("position_group")
         .agg({
             "minutes_played": "sum",
-            "xG": "sum",
             "goals": "sum",
-            "xA": "sum",
             "assists": "sum",
             "pass_completion": "mean",
             "aerial_win_rate": "mean",
@@ -2145,9 +2097,7 @@ def main():
     pos_extended = pos_extended.rename(columns={
         "position_group": "Position",
         "minutes_played": "Minutes",
-        "xG": "xG",
         "goals": "Goals",
-        "xA": "xA",
         "assists": "Assists",
         "pass_completion": "Pass %",
         "aerial_win_rate": "Aerial %",
@@ -2160,9 +2110,7 @@ def main():
     pos_extended["Minutes"] = pos_extended["Minutes"].map(lambda x: f"{x:.1f}")
     #pos_extended["xG"] = pos_extended["xG"].map(lambda x: f"{x:.3f}")
     #pos_extended["Goals"] = pos_extended["Goals"].map(lambda x: f"{int(x)}")
-    pos_extended["xG"] = pos_extended["xG"].apply(
-        lambda x: f"{float(x):.3f}" if pd.notna(x) else ""
-    )
+
     pos_extended["Goals"] = (
         pd.to_numeric(pos_extended["Goals"], errors="coerce")  # turns NaN into NaN
           .fillna(0)                                           # replace NaN with 0 (or "" if you prefer)
@@ -2171,9 +2119,7 @@ def main():
     )
     #pos_extended["xA"] = pos_extended["xA"].map(lambda x: f"{x:.3f}")
     #pos_extended["Assists"] = pos_extended["Assists"].map(lambda x: f"{int(x)}")
-    pos_extended["xA"] = pos_extended["xA"].apply(
-        lambda x: f"{float(x):.3f}" if pd.notna(x) else ""
-    )    
+ 
     pos_extended["Assists"] = (
         pd.to_numeric(pos_extended["Assists"], errors="coerce")  # turns NaN into NaN
           .fillna(0)                                           # replace NaN with 0 (or "" if you prefer)
@@ -2267,9 +2213,9 @@ def main():
     #     "Shot Maps", "Creative Actions", "Metric Comparisons",
     #     "Defensive Actions", "Passes & Carries", "Player Similarity"]
     #)
-    tab2, tab4, tab3, tab8, tab6, tab9, tab5, tab1, tab7, tab10 = st.tabs(
+    tab2, tab4, tab3, tab8, tab6, tab9, tab1, tab7, tab10 = st.tabs(
         ["Player Pizza", "Player Profiling", "Player Actions", 
-         "Defensive Actions", "Creative Actions", "Passes & Carries", "Shot Maps", "Pitch Impact",
+         "Defensive Actions", "Creative Actions", "Passes & Carries", "Pitch Impact",
          "Metric Comparison", "Player Similarity"]
     )
     # Init session state
@@ -2588,207 +2534,6 @@ def main():
         with center:
             st.image(fig_to_png_bytes(fig), width=600)
             plt.close(fig)
-    # ================================================================
-    # TAB 5 — Shot Maps
-    # ================================================================
-    # ================================================================
-    # TAB 5 — Shot Maps
-    # ================================================================
-    with tab5:
-        st.session_state["active_tab"] = "Shot Maps"
-        st.header("Shot Maps")
-    
-        # ------------------------------------------
-        # BUILD SHOT DATA
-        # ------------------------------------------
-        playershots = matchdata.loc[
-            (matchdata['playerName'] == playername) &
-            (matchdata['team_name'] == team_choice) &
-            (matchdata['playing_position'] == position)
-        ].copy()
-    
-        playershots = playershots.loc[playershots['shotType'].notna()]
-    
-        shotmaptar2 = playershots.loc[playershots['typeId']=='Attempt Saved']
-        shotmaptar2 = shotmaptar2.loc[shotmaptar2['expectedGoalsOnTarget']>0]
-    
-        shotmapbk2 = playershots.loc[playershots['typeId']=='Attempt Saved']
-        shotmapbk2 = shotmapbk2.loc[shotmapbk2['expectedGoalsOnTarget']== 0]
-    
-        shotmapoff2 = playershots.loc[playershots['typeId'] == 'Miss']
-    
-        goalmap3 = playershots.loc[
-            (playershots['typeId'] == 'Goal') &
-            (playershots['typeId'] != 'Own Goal')
-        ]
-    
-        num_goals = len(goalmap3)
-        num_shots = len(shotmaptar2) + len(shotmapbk2) + len(shotmapoff2) + len(goalmap3)
-        shots_on_target = len(shotmaptar2) + len(goalmap3)
-        shot_conversion_rate = round((shots_on_target / num_shots) * 100, 1) if num_shots > 0 else 0
-        goal_conversion_rate = round((num_goals / num_shots) * 100, 1) if num_shots > 0 else 0
-        xg_sum = round(playershots['expectedGoals'].sum(), 2)
-        xgot_sum = round(playershots['expectedGoalsOnTarget'].sum(), 2)
-    
-        # ---------------------------------------------------------------
-        # LAYOUT → Two columns side-by-side
-        # ---------------------------------------------------------------
-        col1, col2 = st.columns([1, 1], gap="large")
-    
-    
-        # ===============================================================
-        # LEFT COLUMN: ORIGINAL SHOT MAP
-        # ===============================================================
-        with col1:
-    
-            fig, ax = plt.subplots(figsize=(10, 7.5))
-            fig.set_facecolor(BackgroundColor)
-    
-            pitch_left = VerticalPitch(
-                pitch_type='opta',
-                half=True,
-                pitch_color=PitchColor,
-                line_color=PitchLineColor
-            )
-            pitch_left.draw(ax=ax)
-    
-            def get_marker_size(expectedGoals, scale_factor=1000):
-                return expectedGoals * scale_factor
-    
-            pitch_left.scatter(
-                shotmaptar2.x, shotmaptar2.y,
-                s=get_marker_size(shotmaptar2.expectedGoals),
-                ax=ax, edgecolor='blue', facecolor='none', marker='o',
-                label='Shot on Target'
-            )
-    
-            pitch_left.scatter(
-                shotmapbk2.x, shotmapbk2.y,
-                s=get_marker_size(shotmapbk2.expectedGoals),
-                ax=ax, edgecolor='orange', facecolor='none', marker='o',
-                label='Shot Blocked'
-            )
-    
-            pitch_left.scatter(
-                shotmapoff2.x, shotmapoff2.y,
-                s=get_marker_size(shotmapoff2.expectedGoals),
-                ax=ax, edgecolor='red', facecolor='none', marker='o',
-                label='Shot off Target'
-            )
-    
-            pitch_left.scatter(
-                goalmap3.x, goalmap3.y,
-                s=get_marker_size(goalmap3.expectedGoals),
-                ax=ax, edgecolor='green', facecolor='none', marker='o',
-                label='Goal'
-            )
-    
-            ax.set_title(
-                f"{playername} - xG Shot Map as {position} - {team_choice}",
-                fontsize=15, color=TextColor
-            )
-    
-            handles, labels = ax.get_legend_handles_labels()
-            legend_markers = [
-                plt.Line2D([0], [0], marker='o', color='none', markerfacecolor='none',
-                           markeredgecolor='blue', markersize=10),
-                plt.Line2D([0], [0], marker='o', color='none', markerfacecolor='none',
-                           markeredgecolor='orange', markersize=10),
-                plt.Line2D([0], [0], marker='o', color='none', markerfacecolor='none',
-                           markeredgecolor='red', markersize=10),
-                plt.Line2D([0], [0], marker='o', color='none', markerfacecolor='none',
-                           markeredgecolor='green', markersize=10)
-            ]
-    
-            ax.legend(
-                legend_markers, labels,
-                facecolor='none', handlelength=5, edgecolor='None',
-                bbox_to_anchor=(.22275, .94), fontsize=8
-            )
-    
-            add_image(teamimage, fig, left=0.7, bottom=0.16, width=0.1, alpha=1)
-            add_image(wtaimaged, fig, left=0.472, bottom=0.165, width=0.08, alpha=1)
-    
-            ax.text(99, 73,   f'Goals Scored: {num_goals}', ha='left', fontsize=9, color='black')
-            ax.text(99, 71.5, f'Total xG: {xg_sum}',       ha='left', fontsize=9, color='black')
-            ax.text(99, 70,   f'Total xGOT: {xgot_sum}',   ha='left', fontsize=9, color='black')
-            ax.text(99, 68.5, f'Shots Taken: {num_shots}', ha='left', fontsize=9, color='black')
-            ax.text(99, 67,   f'Shots on Target: {shots_on_target}', ha='left', fontsize=9, color='black')
-            ax.text(99, 65.5, f'Shots Accuracy: {shot_conversion_rate}%', ha='left', fontsize=9, color='black')
-            ax.text(99, 64,   f'Goal Conversion: {goal_conversion_rate}%', ha='left', fontsize=9, color='black')
-    
-            st.image(fig_to_png_bytes(fig), width=750)
-            plt.close(fig)
-    
-    
-    
-        # ===============================================================
-        # RIGHT COLUMN: NEW GOAL-MOUTH VISUAL
-        # ===============================================================
-        with col2:
-    
-            import json
-    
-            def extract_goalmouth(df):
-                df = df.copy()
-                df['onGoalShot'] = df['onGoalShot'].apply(
-                    lambda x: json.loads(x.replace("'", '"')) if isinstance(x, str) else x
-                )
-                df['goal_x'] = df['onGoalShot'].apply(lambda x: x.get('x') if isinstance(x, dict) else None)
-                df['goal_y'] = df['onGoalShot'].apply(lambda x: x.get('y') if isinstance(x, dict) else None)
-                df['zoomratio'] = df['onGoalShot'].apply(lambda x: x.get('zoomRatio') if isinstance(x, dict) else None)
-                return df
-    
-            shotmap_gm = extract_goalmouth(shotmaptar2)
-            goalmap_gm = extract_goalmouth(goalmap3)
-    
-            size_factor = 800
-            sizes_tar = shotmap_gm['expectedGoalsOnTarget'].fillna(0).clip(lower=0.01) * size_factor
-            sizes_goals = goalmap_gm['expectedGoalsOnTarget'].fillna(0).clip(lower=0.01) * size_factor
-    
-            # NEW background colour here
-            figGM, axGM = plt.subplots(figsize=(10, 7.5))
-            figGM.set_facecolor(BackgroundColor)
-            axGM.set_facecolor(PitchColor)
-    
-            # Goal frame
-            axGM.plot([0, 0], [0, 0.66], color='black', linewidth=4)
-            axGM.plot([2, 2], [0, 0.66], color='black', linewidth=4)
-            axGM.plot([0, 2], [0.66, 0.66], color='black', linewidth=4)
-    
-            axGM.scatter(
-                shotmap_gm['goal_x'], shotmap_gm['goal_y'],
-                s=sizes_tar, facecolors='none', edgecolors='blue',
-                alpha=0.7, label='Shots on Target'
-            )
-    
-            axGM.scatter(
-                goalmap_gm['goal_x'], goalmap_gm['goal_y'],
-                s=sizes_goals, facecolors='green', edgecolors='#381d54',
-                linewidths=1.5, label='Goals'
-            )
-    
-            axGM.set_xlim(-0.5, 2.5)
-            axGM.set_ylim(-0.2, 1.5)
-            axGM.set_xticks([])
-            axGM.set_yticks([])
-    
-            for side in ['top', 'right', 'left', 'bottom']:
-                axGM.spines[side].set_visible(False)
-    
-            for x in [0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8]:
-                axGM.plot([x, x], [0, 0.66], color='grey', linewidth=0.5)
-            for y in [0.0825, 0.165, 0.2475, 0.33, 0.4125, 0.495, 0.5775]:
-                axGM.plot([0, 2], [y, y], color='grey', linewidth=0.5)
-    
-            axGM.set_title(
-                f"{playername} – xG Shot Placement as {position} - {team_choice}",
-                fontsize=14, color=TextColor
-            )
-            add_image(teamimage, figGM, left=0.32, bottom=0.58, width=0.125, alpha=1)
-            add_image(wtaimaged, figGM, left=0.58, bottom=0.60, width=0.125, alpha=1)
-            st.pyplot(figGM)
-            plt.close(figGM)  
 
 # ================================================================
 # TAB6 — Creative Actions
