@@ -39,7 +39,7 @@ TextColor = "White"
     # -----------------------------------------------------------------
 @st.cache_resource
 def load_wta_image():
-    url = "https://github.com/RDA-Insights/dashboard/raw/main/wtatransnew.png"
+    url = "https://github.com/RDA-Insights/dashboard/raw/main/wtatransd.png"
     response = requests.get(url)
     return Image.open(BytesIO(response.content))
 
@@ -2008,7 +2008,7 @@ def main():
         teamimage = None   # fallback
     wtaimaged = Image.open(
         requests.get(
-            "https://github.com/RDA-Insights/dashboard/raw/main/wtatransnew.png",
+            "https://github.com/RDA-Insights/dashboard/raw/main/wtatransd.png",
             stream=True,
         ).raw
     )
