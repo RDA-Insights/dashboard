@@ -409,8 +409,8 @@ def create_pass_and_carry_sonar(
         sonar(axes[0], passingdata, f"{playername} - Passing Sonars as {position}")
         sonar(axes[1], carryingdata, f"{playername} - Carrying Sonars as {position}")
 
-        add_image(wtaimaged, fig, left=0.203, bottom=0.4535, width=0.1, alpha=0.25)
-        add_image(wtaimaged, fig, left=0.6975, bottom=0.4535, width=0.1, alpha=0.25)
+        add_image(wtaimaged, fig, left=0.203, bottom=0.4535, width=0.05, alpha=0.25)
+        add_image(wtaimaged, fig, left=0.6975, bottom=0.4535, width=0.05, alpha=0.25)
 
         return fig
 
@@ -1698,7 +1698,7 @@ def create_player_actions_figure(
         # LOGOS
         # ---------------------------------------------------------
         add_image(teamimage, fig, left=0.56, bottom=-0.05, width=0.06, alpha=1)
-        add_image(wtaimaged, fig, left=0.4, bottom=-0.04075, width=0.035, alpha=1)
+        add_image(wtaimaged, fig, left=0.415, bottom=-0.04575, width=0.04, alpha=1)
         plt.close(fig)
         return fig
 def create_creative_actions_figure(
@@ -1852,7 +1852,7 @@ def create_creative_actions_figure(
         # LOGOS
         # ---------------------------------------------------------
         add_image(teamimage, fig, left=0.56, bottom=-0.05, width=0.06, alpha=1)
-        add_image(wtaimaged, fig, left=0.4, bottom=-0.04075, width=0.035, alpha=1)
+        add_image(wtaimaged, fig, left=0.415, bottom=-0.04575, width=0.04, alpha=1)
 
         return fig
 # -----------------------------------------------------------------------------
