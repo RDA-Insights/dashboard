@@ -1238,7 +1238,7 @@ def build_player_pizza(
     # -----------------------------------------------------------------
     if position in 'CM(2), CM(3) DM(23)':
         cols = [
-            "goals_per_90", "xG_per_90", "assists_per_90",
+            "goals_per_90", "shots_per_90", "assists_per_90",
             "keyPasses_per_90", "touches_in_box_per_90",
             "pass_completion", "pass_completion_final_third", "%_passes_are_progressive",
             "prog_carries_per_90",
@@ -1251,8 +1251,8 @@ def build_player_pizza(
 
     elif position in ['LB', 'LWB', 'RB', 'RWB']:
         cols = [
-            "keyPasses_per_90", "xA_per_90", "assists_per_90",
-            "xG_per_90", "successful_attacking_actions_per_90",
+            "keyPasses_per_90", "assists_per_90", "shots_per_90"
+            "goals_per_90", "successful_attacking_actions_per_90",
             "pass_completion", "pass_completion_final_third", "%_passes_are_progressive",
             "prog_carries_per_90",
             "total_threat_created_per_90",
@@ -1263,7 +1263,7 @@ def build_player_pizza(
         ]
     elif position in ['CB(3)', 'CB(2)']:
         cols = [
-            "goals_per_90", "keyPasses_per_90", "xA_per_90",
+            "goals_per_90", "off_aerial_win_rate", "keyPasses_per_90",
             "prog_carries_per_90", "successful_attacking_actions_per_90",
             "pass_completion", "prog_passes_per_90",
             "%_passes_are_progressive", "passing_yards_per_90",
@@ -1275,8 +1275,8 @@ def build_player_pizza(
         ]
     elif position in ['CF', 'LW', 'RW', 'AM', 'CF(2)', 'AM(2)']:
         cols = [
-            "shots_per_90", "shot_accuracy", "xG_per_90",
-            "goals_per_90", "shot_quality",
+            "shots_per_90", "shot_accuracy", "goals_per_90",
+            "touches_in_box_per_90", "off_aerial_win_rate",
             "prog_carries_per_90", "carrying_yards_per_90",
             "carry_threat_per_90", "dribbles_per_90",
             "successful_attacking_actions_per_90",
@@ -1361,7 +1361,7 @@ def build_player_pizza(
     # -----------------------------------------------------------------
     if position in 'CM(2), CM(3) DM(23)':
         params = [
-            "Goals", "xG", "Assists",
+            "Goals", "Shots", "Assists",
             "Shot Assists", "Touches in Box",
             "Pass Completion \n%", "Final 3rd \nPass Completion \n%", "% Passes are \nProgressive",
             "Progressive \n Carries",
@@ -1370,10 +1370,11 @@ def build_player_pizza(
             "Interceptions", "Shots Blocked", "Threat Prevented",
             "Player Impact",
         ]
+
     elif position in ['LB', 'LWB', 'RB', 'RWB']:
         params = [
-            "Shot Assists", "xA", "Assists",
-            "xG", "Successful \nAttacking Actions",
+            "Shot Assists", "Assists", "Shots",
+            "Goals", "Successful \nAttacking Actions",
             "Pass Completion \n%", "Final 3rd \nPass Completion \n%", "% Passes are \nProgressive",
             "Progressive \n Carries",
             "Threat Created",
@@ -1381,9 +1382,10 @@ def build_player_pizza(
             "Interceptions", "Shots Blocked", "Threat Prevented",
             "Player Impact",
         ]
+
     elif position in ['CB(2)', 'CB(3)']:
         params = [
-            "Goals", "Shot Assists", "xA",
+            "Goals", "Offensive \nAerial %", "Shot Assists",
             "Progressive \nCarries", "Successful \nAttacking Actions",
             "Pass Completion \n%", "Progressive \nPasses", "% Passes are \nProgressive",
             "Passing Yards", "Passing Threat",
@@ -1391,16 +1393,18 @@ def build_player_pizza(
             "Aerial \n%", "Threat Prevented",
             "Player Impact",
         ]
+
     else:   # CF / LW / RW / AM
         params = [
-            "Shots", "Shot Accuracy %", "xG",
-            "Goals", "Shot Quality",
+            "Shots", "Shot Accuracy %", "Goals",
+            "Touches in Box", "Offensive \nAerial %",
             "Progressive \nCarries", "Carrying Yards", "Carrying Threat",
             "Dribbles", "Successful \nAttacking Actions",
             "Final 3rd \nPass Completion \n%",
             "Passing Threat", "Shot Assists", "xA", "Assists",
             "Player Impact",
         ]
+
 
     # Must match metric count
     if len(params) != len(values):
