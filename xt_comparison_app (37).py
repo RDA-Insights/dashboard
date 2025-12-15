@@ -338,7 +338,7 @@ def create_pass_and_carry_sonar(
     x_bins = np.linspace(0, 100, 6)
     y_bins = np.linspace(0, 100, 6)
 
-    def plot_sonar(ax, cx, cy, angles, bins=12, max_radius=8, color='#381d54'):
+    def plot_sonar(ax, cx, cy, angles, bins=12, max_radius=8, color='#A7192B'):
         edges = np.linspace(0, 360, bins + 1)
         counts, _ = np.histogram(angles, bins=edges)
         radii = (counts / counts.max() * max_radius) if counts.max() else np.zeros_like(counts)
