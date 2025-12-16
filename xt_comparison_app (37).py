@@ -53,6 +53,8 @@ SEASON_MAP = {
 COMP_MAP = {
     "WSL1": "WSL1",
     "WSL2":        "WSL2",
+    "USL1":    "USL Super League",
+    "NWSL":    "NWSL",
 }
 @st.cache_resource
 def load_team_badge(teamcode: str):
@@ -973,6 +975,9 @@ def list_parquet_files():
 COMPARISON_MAP = {
     "WSL1": "WSL1_2526",
     "WSL2":        "WSL2_2526",
+    "USL1":        "USL1_2526",
+    "NWSL":        "NWSL_2025",
+
 }
 
 @st.cache_data
@@ -1878,7 +1883,7 @@ def main():
     # 2. Season auto-selection (locked)
     # --------------------------
     # Leagues that must use 2025
-    forced_2025 = ["Brasilerao", "League of Ireland", "Allsvenskan", "MLS", "J-League"]
+    forced_2025 = ["NWSL", "League of Ireland", "Allsvenskan", "MLS", "J-League"]
 
     if competition_choice in forced_2025:
         season_choice = "2025"
