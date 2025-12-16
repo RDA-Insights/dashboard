@@ -53,7 +53,7 @@ SEASON_MAP = {
 COMP_MAP = {
     "WSL1": "WSL1",
     "WSL2":        "WSL2",
-    "USL1":    "USL Super League",
+    "USL Super League":    "USL1",
     "NWSL":    "NWSL",
 }
 @st.cache_resource
@@ -975,7 +975,7 @@ def list_parquet_files():
 COMPARISON_MAP = {
     "WSL1": "WSL1_2526",
     "WSL2":        "WSL2_2526",
-    "USL1":        "USL1_2526",
+    "USL Super League":        "USL1_2526",
     "NWSL":        "NWSL_2025",
 
 }
