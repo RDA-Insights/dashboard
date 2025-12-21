@@ -60,6 +60,7 @@ COMP_MAP = {
     "League One": "ENG3",
     "League Two": "ENG4",
     "Premiership": "SCO1",
+    "League of Ireland": "IRE1",
 }
 @st.cache_resource
 def load_team_badge(teamcode: str):
@@ -987,7 +988,7 @@ COMPARISON_MAP = {
     "League One":        "ENG3_2526",
     "League Two":        "ENG4_2526",
     "Premiership":        "SCO1_2526",
-
+    "League of Ireland":    "IRE1_2025",
 }
 
 @st.cache_data
