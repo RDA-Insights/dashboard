@@ -1877,7 +1877,7 @@ def create_creative_actions_figure(
 def main():
     st.title("RDA Insights - Player Data Dashboard")
     st.subheader("Select League, Player & Position on the Left - Contact @WT_Analysis on X for more info")
-    st.subheader("Data last updated 16/12/2025")
+    st.subheader("Data last updated 27/01/2026")
 
     st.sidebar.header("League Selection")
 
